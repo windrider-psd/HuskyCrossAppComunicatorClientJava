@@ -49,7 +49,7 @@ public class CACClient implements MqttCallback
             try
             {
                 ObjectMapper objectMapper = new ObjectMapper();
-                NodeJSMessage message = objectMapper.readValue(obj, NodeJSMessage.class);
+                Message message = objectMapper.readValue(obj, Message.class);
 
                 if (message.getMessageType() == MessageType.COMMAND)
                 {
@@ -103,7 +103,7 @@ public class CACClient implements MqttCallback
 
     }
 
-    public void SendMessage(NodeJSMessage nodeJSMessage)
+    public void SendMessage(Message nodeJSMessage)
     {
         try
         {
@@ -233,7 +233,7 @@ public class CACClient implements MqttCallback
 
             String jsonCommand = objectMapper.writeValueAsString(nodeJSCommand);
 
-            NodeJSMessage nodeJSMessage = new NodeJSMessage();
+            Message nodeJSMessage = new Message();
             nodeJSMessage.setArg(jsonCommand);
             nodeJSMessage.setMessageType(MessageType.COMMAND);
 
@@ -303,14 +303,73 @@ public class CACClient implements MqttCallback
                                     valid = false;
                                 }
 
-                                else if (parameter.getType().isPrimitive() || IsFromPrimitive(parameter.getType()))
+                                else if (parameter.getType().isPrimitive())
                                 {
+                                    if (parameter.getType().equals(boolean.class))
+                                    {
+                                        Boolean.parseBoolean(arg);
+                                    }
+                                    else if (parameter.getType().equals(byte.class))
+                                    {
+                                        Byte.parseByte(arg);
+                                    }
+                                    else if (parameter.getType().equals(short.class))
+                                    {
+                                        Short.parseShort(arg);
+                                    }
+                                    else if (parameter.getType().equals(int.class))
+                                    {
+                                       Integer.parseInt(arg);
+                                    }
+                                    else if (parameter.getType().equals(long.class))
+                                    {
+                                        Long.parseLong(arg);
+                                    }
+                                    else if (parameter.getType().equals(float.class))
+                                    {
+                                        Float.parseFloat(arg);
+                                    }
+                                    else if (parameter.getType().equals(double.class))
+                                    {
+                                        Double.parseDouble(arg);
+                                    }
                                     valid = true;
+                                }
+                                else if (IsFromPrimitive(parameter.getType()))
+                                {
+                                    if (parameter.getType().equals(Boolean.class))
+                                    {
+                                        Boolean.valueOf(arg);
+                                    }
+                                    else if (parameter.getType().equals(Byte.class))
+                                    {
+                                        Byte.valueOf(arg);
+                                    }
+                                    else if (parameter.getType().equals(Short.class))
+                                    {
+                                        Short.valueOf(arg);
+                                    }
+                                    else if (parameter.getType().equals(Integer.class))
+                                    {
+                                       Integer.valueOf(arg);
+                                    }
+                                    else if (parameter.getType().equals(Long.class))
+                                    {
+                                        Long.valueOf(arg);
+                                    }
+                                    else if (parameter.getType().equals(Float.class))
+                                    {
+                                        Float.valueOf(arg);
+                                    }
+                                    else if (parameter.getType().equals(Double.class))
+                                    {
+                                        Double.valueOf(arg);
+                                    }
                                 }
                                 else if (parameter.getType().equals(String.class))
                                 {
-                                    stringRoute = route;
-                                    valid = false;
+                                    //stringRoute = route;
+                                    valid = true;
                                 }
                                 else
                                 {
@@ -320,6 +379,7 @@ public class CACClient implements MqttCallback
                             catch (Exception ex)
                             {
                                 valid = false;
+                                break;
                             }
                         }
                     }
@@ -355,7 +415,7 @@ public class CACClient implements MqttCallback
         ObjectMapper objectMapper = new ObjectMapper();
         if (route == null)
         {
-            NodeJSMessage nodeJSMessage = new NodeJSMessage();
+            Message nodeJSMessage = new Message();
             CommandError commandError = new CommandError("NRT", "No route for " + command.getCommandPath());
             System.out.println("No route");
             nodeJSMessage.setMessageType(MessageType.RESPONSE);

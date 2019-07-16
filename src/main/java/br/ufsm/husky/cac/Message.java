@@ -9,16 +9,16 @@ package br.ufsm.husky.cac;
  *
  * @author politecnico
  */
-public class NodeJSMessage
+public class Message
 {
     private MessageType messageType;
     private String arg;
 
-    public NodeJSMessage()
+    public Message()
     {
     }
 
-    public NodeJSMessage(MessageType messageType, String arg)
+    public Message(MessageType messageType, String arg)
     {
         this.messageType = messageType;
         this.arg = arg;

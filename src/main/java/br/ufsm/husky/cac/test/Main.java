@@ -19,14 +19,14 @@ import java.util.Map;
  */
 public class Main
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException
     {
         
         Map<String, String> commandArgs = new LinkedHashMap<>();
-        commandArgs.put("user", "chris");
-        commandArgs.put("password", "1234");
+        commandArgs.put("user", "51a");
+        commandArgs.put("number", "10");
         //commandArgs.put("champ", "ULTRA GIGA POGCHAMP");
-        
+                
         Command command = new Command();
         command.setCommandId(1);
         command.setCommandPath("pog");

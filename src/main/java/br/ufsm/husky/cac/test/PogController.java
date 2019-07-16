@@ -17,21 +17,37 @@ import br.ufsm.husky.cac.OperationType;
 public class PogController
 {
     
-    @ListenerRoute(CommandPath = "pog", OperationType = OperationType.READ)
+    /*@ListenerRoute(CommandPath = "pog", OperationType = OperationType.READ)
     public void POGGERS(UserData userdata)
     {
         System.out.println("REGULAR POGGERS");
         System.out.println(userdata.user);
         System.out.println(userdata.password);
-    }
+    }*/
     @ListenerRoute(CommandPath = "pog", OperationType = OperationType.READ)
-    public void USERDATAPOGGERS(String user, String password)
+    public void INTPOGGERS(int user, UserData number)
     {
-        System.out.println("USERDATA POGGERS");
+        System.out.println("INT POGGERS");
         System.out.println(user);
-        System.out.println(password);
+        System.out.println(number);
     }
     
+    @ListenerRoute(CommandPath = "pog", OperationType = OperationType.READ)
+    public void STRINGPOGGERS(int user, String number)
+    {
+        System.out.println("String POGGERS");
+        System.out.println(user);
+        System.out.println(number);
+    }
+    
+    @ListenerRoute(CommandPath = "pog", OperationType = OperationType.READ)
+    public void MATHPOGGERS(int user, int number)
+    {
+        System.out.println("MATH POGGERS");
+        System.out.println(user);
+        System.out.println(number);
+    }
+    /*
     @ListenerRoute(CommandPath = "pog", OperationType = OperationType.READ)
     public void CRAZYPOGGERS(String userdata)
     {
@@ -52,6 +68,6 @@ public class PogController
         System.out.println("ULTRA POGGERS");
         System.out.println(pog);
         System.out.println(champ);
-    }
+    }*/
     
 }
