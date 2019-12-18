@@ -22,21 +22,18 @@ public class Main
     public static void main(String[] args) throws InstantiationException, IllegalAccessException
     {
         
-        Map<String, String> commandArgs = new LinkedHashMap<>();
-        commandArgs.put("user", "51a");
-        commandArgs.put("number", "10");
-        //commandArgs.put("champ", "ULTRA GIGA POGCHAMP");
-                
-        Command command = new Command();
-        command.setCommandId(1);
-        command.setCommandPath("pog");
-        command.setOperationType(OperationType.READ);
-        command.setArgs(commandArgs);
+        Usuario u = new Usuario();
+        u.setIdade(21);
+        u.setNome("Christian");
+        Map<String, Object> commandArgs = new LinkedHashMap<>();
+        commandArgs.put("usuario", u);
+        commandArgs.put("gato", "chunchunmaru");
+      
+               
         
-        CACClient cACClient = new CACClient("br.ufsm.husky.cac.test", null, 0);
-       
-        cACClient.InvokeRoutes(command);
+        CACClient client = new CACClient("br.ufsm.husky.cac.test", "localhost", 961);
         
+        client.WriteCommand("pog", OperationType.READ, commandArgs);
        
     }
 }

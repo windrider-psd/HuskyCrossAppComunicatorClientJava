@@ -197,7 +197,15 @@ class Route
         
         for(Parameter parameter : parameters)
         {
-            map.put(parameter.getName(), parameter.getType());
+            Argument argument = parameter.getAnnotation(Argument.class);
+            if(argument == null)
+            {
+                map.put(parameter.getName(), parameter.getType());
+            }
+            else
+            {
+                map.put(argument.Name(), parameter.getType());
+            }    
         }
         
         return map;
@@ -208,10 +216,22 @@ class Route
         Parameter[] parameters = method.getParameters();
         for(Parameter parameter : parameters)
         {
-            if(parameter.getName().equals(key))
+            Argument argument = parameter.getAnnotation(Argument.class);
+            
+            if(argument != null)
             {
-                return parameter;
+                if(argument.Name().equals(key))
+                {
+                    return parameter;
+                }
             }
+            else{
+                if(parameter.getName().equals(key))
+                {
+                    return parameter;
+                }
+            } 
+           
         }
         return null;
     }

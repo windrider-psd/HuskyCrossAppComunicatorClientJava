@@ -40,7 +40,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
  */
 public class CACClient implements MqttCallback
 {
-
     private void OnMessage(String obj)
     {
         //System.out.println(builtInMap.containsValue(Boolean.class));
@@ -58,6 +57,7 @@ public class CACClient implements MqttCallback
                 }
                 else
                 {
+                    System.out.println("hahahakkakakakka");
                     System.out.println(message.getArg());
                 }
             }
@@ -211,6 +211,8 @@ public class CACClient implements MqttCallback
         {
             ex.printStackTrace();
         }
+           System.out.println("");
+        
 
     }
 
@@ -225,7 +227,7 @@ public class CACClient implements MqttCallback
 
             for (Map.Entry<String, Object> arg : args.entrySet())
             {
-                String argJson = objectMapper.writeValueAsString(args);
+                String argJson = objectMapper.writeValueAsString(arg);
                 argCommand.put(arg.getKey(), argJson);
             }
 
@@ -239,13 +241,7 @@ public class CACClient implements MqttCallback
 
             this.SendMessage(nodeJSMessage);
 
-            /* String jsonMessage = objectMapper.writeValueAsString(nodeJSMessage);
-            
-            String complete = jsonMessage + "\\r\\nEND\\r\\n";
-            
-            byte[] bytes = jsonMessage.getBytes();
-            
-            this.tcpClient.getSocket().getOutputStream().write(bytes);*/
+           
         }
         catch (JsonProcessingException ex)
         {
@@ -433,7 +429,12 @@ public class CACClient implements MqttCallback
         {
             try
             {
-                route.InvokeRoute(new ArrayList<>(command.getArgs().values()));
+                Object retorno = route.InvokeRoute(new ArrayList<>(command.getArgs().values()));
+                Message nodeJSMessage = new Message();
+                CommandResponse commandResponse = new CommandResponse(command.getCommandId(), ResponseStatus.OK, retorno);
+                nodeJSMessage.setArg(objectMapper.writeValueAsString(commandResponse));
+                nodeJSMessage.setMessageType(MessageType.RESPONSE);
+                 SendMessage(nodeJSMessage);
             }
             catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | IOException ex)
             {
